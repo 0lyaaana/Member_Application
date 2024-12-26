@@ -70,7 +70,10 @@ public class MainActivity extends AppCompatActivity {
         }
         
         // 중복 아이디 체크
-
+        if (databaseHelper.useridCheck(userid)) {
+            Toast.makeText(this, "이미 사용 중인 아이디", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // 회원 저장
         boolean success = databaseHelper.insertMember(userid, passwd, name, email);
