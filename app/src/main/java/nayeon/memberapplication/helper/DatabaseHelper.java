@@ -1,5 +1,6 @@
 package nayeon.memberapplication.helper;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -37,4 +38,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists member");
         onCreate(db);
     }
+
+    // 회원 가입 처리
+    public boolean insertMember(String userid, String passwd, String name, String email){
+
+        // 테이블에 레코드를 저장하기 위해 SQLite초기화
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 저장할 데이터를 컨데이너로 생성
+        ContentValues values = new ContentValues();
+        values.put("userid", userid);
+        values.put("passwd", passwd);
+        values.put("name", name);
+        values.put("email", email);
+
+        // 테이블에 데이터 저장
+        long result =  db.insert("member", null, values);
+
+        // DB 연결
+        db.close();
+
+        // 저장 성공 여부 return
+        return result != -1;
+
+    }
+
+
+    // 아이디 중복 확인
 }
