@@ -1,5 +1,6 @@
 package nayeon.memberapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
@@ -50,6 +51,18 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         registerUser();
+                    }
+                }
+        );
+
+        // 회원 조회 이벤트 처리
+        buttonUserlist.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // UserListActivity를 view에 표시
+                        Intent intent = new Intent(MainActivity.this, UserlistActivity.class);
+                        startActivity(intent);
                     }
                 }
         );
