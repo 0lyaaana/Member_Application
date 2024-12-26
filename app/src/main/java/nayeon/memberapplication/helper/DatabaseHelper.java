@@ -2,6 +2,7 @@ package nayeon.memberapplication.helper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -63,6 +64,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-
     // 아이디 중복 확인
+    public boolean useridCheck(String userid) {
+
+        // 아이디 중복 체크를 위해 sqlite 초기화
+        SQLiteDatabase db = this.getReadableDatabase();
+        // 커서 초기화
+        // select mno from member where userid = ?
+        // query(table, columns, select, group by, having, order by)
+        Cursor cur = db.query("member", new String[]{"mno"},
+                "userid=?", new String[]{userid}, null, null, null);
+
+        // 조회 결과 확인
+        boolean exists = cur.getCount() > 0;
+
+        // DB 연결 해제
+        cur.close();
+        db.close();
+
+        return exists;
+    }
 }
