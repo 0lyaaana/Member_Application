@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -97,6 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<String> userList = new ArrayList<>();
 
         // 쿼리 실행
+        // rawQuert (질의문, 메개변수)
         Cursor cur = db.rawQuery(sql, null);
 
         // 결과 집합(커서) 처리
@@ -121,5 +123,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return userList;
+    }
+
+    // 로그인 확인
+    public boolean loginUser(String userid, String passwd) {
+
+        String sql = "select name from member where userid=? and passwd=?";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] params = new String[]{userid, passwd};
+        Cursor cur = db.rawQuery(sql, params);
+
+        boolean isLogin = cur.getCount() > 0;
+
+        // DB 연결 해제
+        cur.close();
+        db.close();
+
+        return isLogin;
+
+
     }
 }
